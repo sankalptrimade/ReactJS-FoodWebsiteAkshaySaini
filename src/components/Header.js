@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router";
 import { CDN_URL } from "../utils/constants";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const isOnline = useOnlineStatus();
   const [loginButton, setLoginButton] = useState("Login");
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { loggedInUser } = useContext(UserContext)
+  // To see the value of UserContext
+  // console.log(loggedInUser);
+  
 
   return (
     <header
@@ -82,6 +88,9 @@ const Header = () => {
             >
               {loginButton}
             </button>
+            <div className="user-context" style={{color: "white"}}>
+              {loggedInUser}
+            </div>
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { DATA_FETCH_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   // useState Hook
@@ -20,18 +21,26 @@ const Body = () => {
     );
     const json = await data.json();
     console.log(json.data);
-    
-    setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements.infoWithStyle.restaurants);
-    setFilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements.infoWithStyle.restaurants);
-  }; 
+
+    setListOfRestaurants(
+      json?.data?.cards[4]?.card?.card?.gridElements.infoWithStyle.restaurants
+    );
+    setFilteredRestaurants(
+      json?.data?.cards[4]?.card?.card?.gridElements.infoWithStyle.restaurants
+    );
+  };
 
   const isOnline = useOnlineStatus();
 
   if (!isOnline) {
     return (
-      <h1 className="text-center text-danger mt-5">Oops, there is something wrong! Please check your internet connection...</h1>
+      <h1 className="text-center text-danger mt-5">
+        Oops, there is something wrong! Please check your internet connection...
+      </h1>
     );
   }
+
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   return (
     <div
@@ -81,19 +90,40 @@ const Body = () => {
           Top Rated Restaurants
         </button>
 
+        {/* <label>Username: </label> */}
+
         <button
           className="btn btn-danger fw-bold px-4 shadow-lg"
           onClick={() => setFilteredRestaurants(listOfRestaurants)}
         >
           Reset
         </button>
+
+        <input
+          type="text"
+          className="form-control w-25 text-dark"
+          placeholder="Write something to change the loggedInUser Value"
+          onChange={(e) => setUserName(e.target.value)} // ✅ Now this works
+          value={loggedInUser}
+          style={{
+            background: "#fff",
+            borderRadius: "8px",
+            padding: "10px",
+          }}
+        />
       </div>
 
       <div className="res-container row g-4 justify-content-center">
         {filteredRestaurants.length > 0 ? (
           filteredRestaurants.map((restaurant) => (
-            <div key={restaurant.info.id} className="col-lg-3 col-md-4 col-sm-6">
-              <Link to={"/restaurant/" + restaurant.info.id} className="text-decoration-none">
+            <div
+              key={restaurant.info.id}
+              className="col-lg-3 col-md-4 col-sm-6"
+            >
+              <Link
+                to={"/restaurant/" + restaurant.info.id}
+                className="text-decoration-none"
+              >
                 <RestaurantCard resData={restaurant} />
               </Link>
             </div>

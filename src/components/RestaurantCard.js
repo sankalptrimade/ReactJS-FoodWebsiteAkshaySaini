@@ -3,7 +3,9 @@
 // or inside we can create a prop variable and destructure it
 // {resName, resImg, resCuisine, resRating, resTime} = const prop
 
+import { useContext } from "react";
 import { IMG_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
 // const RestaurantCard = (props) => {
 //   const { name, img, cuisine, rating, time } = props.resData;
@@ -18,16 +20,14 @@ import { IMG_URL } from "../utils/constants";
 //   );
 // };
 
-
-
 // const RestaurantCard = ({ resData }) => {
 //     // Add a fallback in case resData is undefined
 //     if (!resData || !resData.info) {
 //       return null; // Don't render anything if data is missing
 //     }
-  
+
 //     const { name, cuisines, avgRating, cloudinaryImageId, sla } = resData.info;
-  
+
 //     return (
 //       <div className="res-card" style={{ backgroundColor: "#f0f0f0", padding: "10px", borderRadius: "8px", margin: "10px" }}>
 //         <img src={IMG_URL + cloudinaryImageId} alt={name} className="res-logo"/>
@@ -39,10 +39,7 @@ import { IMG_URL } from "../utils/constants";
 //     );
 //   };
 
-
-
 // export default RestaurantCard;
-
 
 const RestaurantCard = ({ resData }) => {
   // Add a fallback in case resData is undefined
@@ -51,6 +48,7 @@ const RestaurantCard = ({ resData }) => {
   }
 
   const { name, cuisines, avgRating, cloudinaryImageId, sla } = resData.info;
+  const { loggedInUser } = useContext(UserContext);
 
   return (
     <div
@@ -77,7 +75,9 @@ const RestaurantCard = ({ resData }) => {
           borderRadius: "8px",
         }}
       />
-      <h3 className="fw-bold" style={{ fontSize: "1.5rem", color: "#FFD700" }}>{name}</h3>
+      <h3 className="fw-bold" style={{ fontSize: "1.5rem", color: "#FFD700" }}>
+        {name}
+      </h3>
       <h4 style={{ fontSize: "1rem", fontWeight: "400" }}>
         {cuisines ? cuisines.join(", ") : "No Cuisine Info"}
       </h4>
@@ -87,6 +87,7 @@ const RestaurantCard = ({ resData }) => {
       <h4 style={{ fontSize: "1rem", fontWeight: "400" }}>
         {sla ? `${sla.deliveryTime} min` : "Unknown Time"}
       </h4>
+      <h4 style={{ fontSize: "1rem", fontWeight: "400" }}>{loggedInUser}</h4>
     </div>
   );
 };

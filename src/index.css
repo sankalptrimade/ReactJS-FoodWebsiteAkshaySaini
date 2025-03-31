@@ -1,0 +1,23 @@
+/* Unique Cart Styling */
+.cart-nav {
+    margin-left: 15px; /* Adjust position */
+  }
+  
+  .cart-link {
+    background: linear-gradient(135deg, #ff8c00, #ff4500); /* Vibrant gradient */
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: white !important;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .cart-link:hover {
+    box-shadow: 0 0 15px rgba(255, 140, 0, 1);
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff4500, #ff8c00);
+  }
+  

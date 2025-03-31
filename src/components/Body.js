@@ -98,13 +98,13 @@ const Body = () => {
         >
           Reset
         </button>
-
+        
         <input
           type="text"
           className="form-control w-25 text-dark"
           placeholder="Write something to change the loggedInUser Value"
-          onChange={(e) => setUserName(e.target.value)} // ✅ Now this works
-          value={loggedInUser}
+          onChange={(e) => setUserName(e.target.value)}
+          value={loggedInUser || ""} // ✅ Fix: Default to empty string
           style={{
             background: "#fff",
             borderRadius: "8px",

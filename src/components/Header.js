@@ -3,16 +3,21 @@ import { Link } from "react-router";
 import { CDN_URL } from "../utils/constants";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
+import "../index.css";
 
 const Header = () => {
   const isOnline = useOnlineStatus();
   const [loginButton, setLoginButton] = useState("Login");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { loggedInUser } = useContext(UserContext)
+  const { loggedInUser } = useContext(UserContext);
   // To see the value of UserContext
   // console.log(loggedInUser);
-  
+
+  // Subscribing to the store using a selector
+  const cartItems = useSelector((store) => store.cart.items);
+  console.log(cartItems);
 
   return (
     <header
@@ -26,8 +31,16 @@ const Header = () => {
       <div className="container-fluid">
         {/* Logo */}
         <Link to="/" className="navbar-brand d-flex align-items-center">
-          <img src={CDN_URL} alt="logo" className="me-2" style={{ height: "50px" }} />
-          <h2 className="m-0 fw-bold" style={{ color: "#f8b400", fontFamily: "'Montserrat', sans-serif" }}>
+          <img
+            src={CDN_URL}
+            alt="logo"
+            className="me-2"
+            style={{ height: "50px" }}
+          />
+          <h2
+            className="m-0 fw-bold"
+            style={{ color: "#f8b400", fontFamily: "'Montserrat', sans-serif" }}
+          >
             Foodies
           </h2>
         </Link>
@@ -50,22 +63,36 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/about" className="nav-link" style={{ color: "#f8f9fa" }}>
+              <Link
+                to="/about"
+                className="nav-link"
+                style={{ color: "#f8f9fa" }}
+              >
                 About Us
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className="nav-link" style={{ color: "#f8f9fa" }}>
+              <Link
+                to="/contact"
+                className="nav-link"
+                style={{ color: "#f8f9fa" }}
+              >
                 Contact
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/grocery" className="nav-link" style={{ color: "#f8f9fa" }}>
+              <Link
+                to="/grocery"
+                className="nav-link"
+                style={{ color: "#f8f9fa" }}
+              >
                 Grocery
               </Link>
             </li>
-            <li className="nav-item">
-              <span className="nav-link" style={{ color: "#f8b400" }}>🛒 Cart</span>
+            <li className="nav-item cart-nav">
+              <Link to="/cart" className="nav-link cart-link">
+                🛒 Cart ({cartItems.length} items)
+              </Link>
             </li>
           </ul>
 
@@ -84,11 +111,13 @@ const Header = () => {
                 color: "#1e1e2f",
                 borderRadius: "8px",
               }}
-              onClick={() => setLoginButton(loginButton === "Login" ? "Logout" : "Login")}
+              onClick={() =>
+                setLoginButton(loginButton === "Login" ? "Logout" : "Login")
+              }
             >
               {loginButton}
             </button>
-            <div className="user-context" style={{color: "white"}}>
+            <div className="user-context" style={{ color: "white" }}>
               {loggedInUser}
             </div>
           </div>

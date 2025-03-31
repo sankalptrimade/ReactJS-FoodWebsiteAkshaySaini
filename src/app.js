@@ -11,6 +11,10 @@ import UserContext from "./utils/UserContext";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import AppStore from "./utils/AppStore";
+import Cart from "./components/Cart";
+
 
 const Grocery = lazy(() => import("./components/GroceryStore"));
 
@@ -25,13 +29,16 @@ const AppLayout = () => {
     setUserName(data.name);
   });
   return (
-    // If we want to update the value in future then we have to pass setUserName also so that it is accessible in any of the component
-    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
-      <div className="app">
-        <Header />
-        <Outlet />
-      </div>
-    </UserContext.Provider>
+
+    <Provider store={AppStore}>
+      {/* If we want to update the value in future then we have to pass setUserName also so that it is accessible in any of the component */}
+      <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+        <div className="app">
+          <Header />
+          <Outlet />
+        </div>
+      </UserContext.Provider>
+    </Provider>
 
     //for example if we pass two UserContext.Provider like if we use another UserContext.Provider to wrap a header component then also it will work. The first Provider will have its value what it is set and if we give another value in the header component UserContext.Provider then it will only show that name in the header component for example if I set the userName value = "John Doe" then it will display the name "Jhon Doe" in header component it will not affect the other components
     // <UserContext.Provider value={{ loggedInUser: userName }}>
@@ -73,6 +80,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
     errorElement: <Error />,
